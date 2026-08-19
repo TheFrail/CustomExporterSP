@@ -1,7 +1,7 @@
 # Painter API import
 import substance_painter
 
-#3d party UI lib import
+#3rd party UI lib import
 from PySide6.QtWidgets import QWidget
 
 
