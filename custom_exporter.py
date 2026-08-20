@@ -2,7 +2,7 @@
 import substance_painter
 
 #3rd party UI lib import
-from PySide6.QtWidgets import QWidget, QGridLayout, QCheckBox, QComboBox, QPushButton
+from PySide6.QtWidgets import QWidget, QGridLayout, QCheckBox, QComboBox, QPushButton, QLabel
 
 #Global variable
 custom_exporter = None
@@ -20,7 +20,23 @@ class CustomExporter:
     self.personal_export_cb = QCheckBox("Personal Export")
     self.main_layout.addWidget(self.personal_export_cb)
 
+    #Asset Type label
+    self.asset_type_lbl = QLabel("Asset Type:")
+    self.main_layout.addWidget(self.asset_type_lbl)
+
+    # Asset Type Combo Box
+    self.asset_type_cmbx = QComboBox()
+    self.asset_type_cmbx.addItems(["Props", "Weapons", "Characters"])
+    self.main_layout.addWidget(self.asset_type_cmbx)
+
+    #Export Button 
+    self.export_btn = QPushButton("Export")
+    self.main_layout.addWidget(self.export_btn)
+
+
     substance_painter.ui.add_dock_widget(self.widget)
+
+
 
 
    def delete_widget(self):
