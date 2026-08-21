@@ -1,5 +1,6 @@
 # Painter API import
 import substance_painter
+import substance_painter_plugins
 
 #3rd party UI lib import
 from PySide6.QtWidgets import QWidget, QGridLayout, QCheckBox, QComboBox, QPushButton, QLabel
@@ -22,6 +23,7 @@ class CustomExporter:
 
    def init_widget_window(self):
       self.widget = QWidget() 
+      self.widget.setObjectName("Custom Exporter")
       self.widget.setWindowTitle("Custom Exporter")   
       self.main_layout = QGridLayout(self.widget)
 
@@ -48,7 +50,14 @@ class CustomExporter:
       self.asset_type_cmbx.currentIndexChanged.connect(self.on_asset_type_chaged)
 
    def show_ui_widget(self):
+      plugin = substance_painter_plugins.plugins.get("Custom Exporter", None)
+      if plugin is not None:
+         #Refresh widget
+         self.delete_widget()
+         self.init_widget_window()       
+
       substance_painter.ui.add_dock_widget(self.widget)
+      self.widget.show()
 
    def delete_widget(self):
       if self.widget is not None:
