@@ -3,6 +3,7 @@ import substance_painter
 
 #3rd party UI lib import
 from PySide6.QtWidgets import QWidget, QGridLayout, QCheckBox, QComboBox, QPushButton, QLabel
+from PySide6 import QtCore
 
 #Global variable
 custom_exporter = None
@@ -42,7 +43,9 @@ class CustomExporter:
       self.main_layout.addWidget(self.export_btn)
 
    def connect_slots(self):
-      pass
+      self.export_btn.clicked.connect(self.on_export_requested)
+      self.personal_export_cb.stateChanged.connect(self.on_toggle_personal_export)
+      self.asset_type_cmbx.currentIndexChanged.connect(self.on_asset_type_chaged)
 
    def show_ui_widget(self):
       substance_painter.ui.add_dock_widget(self.widget)
@@ -51,7 +54,20 @@ class CustomExporter:
       if self.widget is not None:
          substance_painter.ui.delete_ui_element(self.widget)
 
+   def on_export_requested(self):
+      print("Export button clicked")
 
+   def on_toggle_personal_export(self, state):
+      check_state = QtCore.Qt.CheckState(state)
+
+      if check_state == QtCore.Qt.CheckState.Checked:
+        print("Personal Export checkbox is checked")
+      else:
+        print("Personal Export checkbox is unchecked")
+
+   def on_asset_type_chaged(self, current_index):
+      current_asset_type_text = self.asset_type_cmbx.itemText(current_index)
+      print(f"asset Type has been changed. Now it's set to {current_asset_type_text}")
 
 def start_plugin():
    global custom_exporter
