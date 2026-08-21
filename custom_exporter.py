@@ -10,38 +10,48 @@ custom_exporter = None
 
 class CustomExporter:
    def __init__(self):
-    self.widget = QWidget()
-    self.widget.setWindowTitle("Custom Exporter")
+      self.initialization()
     
 
-    self.main_layout = QGridLayout(self.widget)
-
-    # Personal Export checkbox
-    self.personal_export_cb = QCheckBox("Personal Export")
-    self.main_layout.addWidget(self.personal_export_cb)
-
-    #Asset Type label
-    self.asset_type_lbl = QLabel("Asset Type:")
-    self.main_layout.addWidget(self.asset_type_lbl)
-
-    # Asset Type Combo Box
-    self.asset_type_cmbx = QComboBox()
-    self.asset_type_cmbx.addItems(["Props", "Weapons", "Characters"])
-    self.main_layout.addWidget(self.asset_type_cmbx)
-
-    #Export Button 
-    self.export_btn = QPushButton("Export")
-    self.main_layout.addWidget(self.export_btn)
+   def initialization(self):
+      self.init_widget_window()
+      self.connect_slots()
+      self.show_ui_widget()
 
 
-    substance_painter.ui.add_dock_widget(self.widget)
+   def init_widget_window(self):
+      self.widget = QWidget() 
+      self.widget.setWindowTitle("Custom Exporter")   
+      self.main_layout = QGridLayout(self.widget)
 
+      # Personal Export checkbox
+      self.personal_export_cb = QCheckBox("Personal Export")
+      self.main_layout.addWidget(self.personal_export_cb)
+      
+      #Asset Type label
+      self.asset_type_lbl = QLabel("Asset Type:")
+      self.main_layout.addWidget(self.asset_type_lbl)
+      
+      # Asset Type Combo Box
+      self.asset_type_cmbx = QComboBox()
+      self.asset_type_cmbx.addItems(["Props", "Weapons", "Characters"])
+      self.main_layout.addWidget(self.asset_type_cmbx)
 
+      #Export Button 
+      self.export_btn = QPushButton("Export")
+      self.main_layout.addWidget(self.export_btn)
 
+   def connect_slots(self):
+      pass
+
+   def show_ui_widget(self):
+      substance_painter.ui.add_dock_widget(self.widget)
 
    def delete_widget(self):
       if self.widget is not None:
          substance_painter.ui.delete_ui_element(self.widget)
+
+
 
 def start_plugin():
    global custom_exporter
