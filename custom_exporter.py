@@ -44,10 +44,26 @@ class CustomExporter:
       self.export_btn = QPushButton("Export")
       self.main_layout.addWidget(self.export_btn)
 
+
+      #Test Button
+      self.info_btn = QPushButton("Info")
+      self.warning_btn = QPushButton("Warning")
+      self.error_btn = QPushButton("Error")
+
+      self.main_layout.addWidget(self.info_btn)
+      self.main_layout.addWidget(self.warning_btn)
+      self.main_layout.addWidget(self.error_btn)
+
+
+
    def connect_slots(self):
       self.export_btn.clicked.connect(self.on_export_requested)
       self.personal_export_cb.stateChanged.connect(self.on_toggle_personal_export)
       self.asset_type_cmbx.currentIndexChanged.connect(self.on_asset_type_chaged)
+
+      self.info_btn.clicked.connect(self.on_info_clicked)
+      self.warning_btn.clicked.connect(self.on_warning_clicked)
+      self.error_btn.clicked.connect(self.on_error_clicked)
 
    def show_ui_widget(self):
       plugin = substance_painter_plugins.plugins.get("Custom Exporter", None)
@@ -77,6 +93,19 @@ class CustomExporter:
    def on_asset_type_chaged(self, current_index):
       current_asset_type_text = self.asset_type_cmbx.itemText(current_index)
       print(f"asset Type has been changed. Now it's set to {current_asset_type_text}")
+
+   def on_info_clicked(self):
+      substance_painter.logging.log(substance_painter.logging.INFO, "Custom Exporter", "This is an Info log")
+
+   def on_warning_clicked(self):
+      substance_painter.logging.log(substance_painter.logging.WARNING, "Custom Exporter", "This is an Warning log")
+
+   def on_error_clicked(self):
+      substance_painter.logging.log(substance_painter.logging.ERROR, "Custom Exporter", "This is an Error log")
+
+
+
+
 
 def start_plugin():
    global custom_exporter
