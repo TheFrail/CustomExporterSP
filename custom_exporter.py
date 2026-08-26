@@ -28,11 +28,13 @@ class CustomExporter:
       if not hasattr(threading.Thread, "isAlive"):
          threading.Thread.isAlive = threading.Thread.is_alive
 
-      import ptvsd
-      port = 3000
-      ptvsd.enable_attach(address= ("localhost", port))
-      substance_painter.logging.log(substance_painter.logging.WARNING, "Custom Exporter", f"Waiting for debugger to attach from VS Code in port {port}")
-     
+      is_user_dev = False
+      if is_user_dev:
+         import ptvsd
+         port = 3000
+         ptvsd.enable_attach(address= ("localhost", port))
+         substance_painter.logging.log(substance_painter.logging.WARNING, "Custom Exporter", f"Waiting for debugger to attach from VS Code in port {port}")
+      
    def init_widget_window(self):
       self.widget = QWidget() 
       self.widget.setObjectName("Custom Exporter")
