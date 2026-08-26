@@ -1,6 +1,8 @@
 # Painter API import
 import substance_painter
 import substance_painter_plugins
+import os
+import threading
 
 #3rd party UI lib import
 from PySide6.QtWidgets import QWidget, QGridLayout, QCheckBox, QComboBox, QPushButton, QLabel
@@ -21,7 +23,16 @@ class CustomExporter:
       self.connect_painter_events()
       self.show_ui_widget()
 
+      if not hasattr(os, "__file__"):
+         os.__file__ = os.path.join(os.path.dirname(os.path.abspath(__file__)), "os.py")
+      if not hasattr(threading.Thread, "isAlive"):
+         threading.Thread.isAlive = threading.Thread.is_alive
 
+      import ptvsd
+      port = 3000
+      ptvsd.enable_attach(address= ("localhost", port))
+      substance_painter.logging.log(substance_painter.logging.WARNING, "Custom Exporter", f"Waiting for debugger to attach from VS Code in port {port}")
+     
    def init_widget_window(self):
       self.widget = QWidget() 
       self.widget.setObjectName("Custom Exporter")
