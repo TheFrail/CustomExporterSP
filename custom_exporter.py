@@ -17,7 +17,8 @@ class CustomExporter:
 
    def initialization(self):
       self.init_widget_window()
-      self.connect_slots()
+      self.connect_widget_events()
+      self.connect_painter_events()
       self.show_ui_widget()
 
 
@@ -44,11 +45,20 @@ class CustomExporter:
       self.export_btn = QPushButton("Export")
       self.main_layout.addWidget(self.export_btn)
 
-   def connect_slots(self):
+   def connect_widget_events(self):
       self.export_btn.clicked.connect(self.on_export_requested)
       self.personal_export_cb.stateChanged.connect(self.on_toggle_personal_export)
       self.asset_type_cmbx.currentIndexChanged.connect(self.on_asset_type_chaged)
 
+
+   def connect_painter_events(self):
+      painter_connections = {
+         substance_painter.event.ProjectOpened : self.on_project_opened,
+         substance_painter.event.ProjectCreated : self.on_project_created,
+      }
+
+      for event, callback in painter_connections.items():
+         substance_painter.event.DISPATCHER.connect(event, callback) 
 
    def show_ui_widget(self):
       plugin = substance_painter_plugins.plugins.get("Custom Exporter", None)
@@ -82,7 +92,11 @@ class CustomExporter:
       substance_painter.logging.log(substance_painter.logging.INFO, "Custom Exporter", f"asset Type has been changed. Now it's set to {current_asset_type_text}")
       
 
+   def on_project_opened(self, e):
+      substance_painter.logging.log(substance_painter.logging.INFO, "Custom Exporter", f"Project {substance_painter.project.name()} opened")
 
+   def on_project_created(self, e):
+      substance_painter.logging.log(substance_painter.logging.INFO, "Custom Exporter", "Project is created")
 
 
 
